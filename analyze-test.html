@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BRECIPE Analyze Test</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; color: #1c1c1e; }
+  label { display: block; margin: 14px 0 6px; font-weight: 600; font-size: 14px; }
+  input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font: inherit; box-sizing: border-box; }
+  button { margin-top: 18px; padding: 12px 20px; border: 0; border-radius: 10px; background: #E8743B; color: #1c1c1e; font-weight: 700; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: wait; }
+  #output { min-height: 200px; margin-top: 18px; white-space: pre-wrap; }
+  #status { margin-top: 12px; font-size: 14px; color: #6b6b70; }
+</style>
+</head>
+<body>
+<h1>Reference analysis test</h1>
+
+<label for="file">Reference image (PNG, JPEG or WebP, under 3 MB)</label>
+<input id="file" type="file" accept="image/png,image/jpeg,image/webp">
+
+<label for="role">Role of this image</label>
+<select id="role">
+  <option>style reference</option>
+  <option>pose reference</option>
+  <option>subject reference</option>
+  <option>composition reference</option>
+</select>
+
+<label for="notes">Notes (optional)</label>
+<input id="notes" type="text" placeholder="e.g. focus on the linework">
+
+<button id="analyze">Analyze reference</button>
+<div id="status"></div>
+<textarea id="output" placeholder="The description appears here. You can edit it before using it."></textarea>
+
+<script>
+const WORKER_URL = 'https://brecipe-analyze.breanoraga212.workers.dev';
+
+document.getElementById('analyze').addEventListener('click', async () => {
+  const file = document.getElementById('file').files[0];
+  const status = document.getElementById('status');
+  const output = document.getElementById('output');
+  const button = document.getElementById('analyze');
+
+  if (!file) { status.textContent = 'Choose an image first.'; return; }
+  if (!/^image\/(png|jpeg|webp)$/.test(file.type)) { status.textContent = 'Use a PNG, JPEG or WebP file.'; return; }
+
+  button.disabled = true;
+  status.textContent = 'Analyzing...';
+  output.value = '';
+
+  try {
+    const imageBase64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageBase64,
+        mimeType: file.type,
+        role: document.getElementById('role').value,
+        notes: document.getElementById('notes').value,
+      }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || 'Analysis failed');
+    output.value = data.description;
+    status.textContent = 'Done. Edit the description if needed.';
+  } catch (err) {
+    status.textContent = 'Error: ' + err.message;
+  } finally {
+    button.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
