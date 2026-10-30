@@ -420,6 +420,8 @@
         /* Close button: center the icon exactly, independent of font metrics */
         .prompt-modal-topbar button[aria-label="Close prompt"], .workflow-modal-topbar button[aria-label="Close workflow"] { line-height:1; }
         .prompt-modal-topbar button[aria-label="Close prompt"] > svg, .workflow-modal-topbar button[aria-label="Close workflow"] > svg { display:block; margin:0; }
+    .ratio-tile.is-active { background:#E8743B; border-color:#E8743B; }
+        .ratio-tile.is-active * { color:#111 !important; }
     </style>
 </head>
 <body class="bg-[#0b0c0e] text-[#f2f2ee] font-sans antialiased selection:bg-brand-500 selection:text-black min-h-screen flex flex-col">
@@ -538,7 +540,7 @@
                 <div id="legacy-sidebar-compat" style="display:none !important" aria-hidden="true">
                     <button type="button" id="nav-library" onclick="app.selectView('library')"></button>
                     <input id="prompt-search" type="search" oninput="app.filterPrompts(this.value)">
-                    <span id="prompt-count">10 prompts</span>
+                    <span id="prompt-count">15 prompts</span>
                     <div id="sidebar-list"></div>
                     <div id="prompt-empty" class="hidden">No prompts match your search.</div>
                     <button type="button" id="nav-visual-engine" onclick="app.selectView('visual-engine')"></button>
@@ -672,6 +674,65 @@
                 "direction": "Write a scene brief describing location, mood, lighting, surface, props, composition and aspect ratio. No style-reference image is required.",
                 "text": "PRODUCT LIFESTYLE SCENE\n\nImage 1 and any following product images are photos of MY PRODUCT, shown from one or more angles. Use the written scene description as the art direction; no style reference is required.\n\nTASK\nCreate one premium lifestyle photograph showing my exact product in a believable real-world environment that supports its intended use and brand mood.\n\nSTEP 1: STUDY THE PRODUCT\nStudy the product's shape, proportions, packaging structure, cap or lid, material, colors, logo, label layout, typography and visible text across all supplied product images. Combine multiple angles into one consistent understanding. Do not invent details that cannot be seen reliably.\n\nSTEP 2: INTERPRET THE SCENE BRIEF\nUse the user's description to determine location, surface, time of day, atmosphere, lighting, color palette, props and camera framing. If details are missing, choose a simple, plausible environment that fits the product category. Props should support the story and never compete with the product.\n\nSTEP 3: GENERATE ONE PHOTOGRAPH\n- PRODUCT: reproduce the exact product with the same shape, proportions, logo, label, typography and colors. Do not redesign, simplify or improve it. Keep branding sharp and legible where visible.\n- ENVIRONMENT: place the product naturally in the described setting, with correct scale, contact points, perspective, reflections and shadows.\n- ART DIRECTION: create a coherent commercial image with intentional composition, controlled lighting, a clear focal point and a palette that complements the product.\n- PROPS: include only props that make sense for the setting or are requested. Do not obscure important branding.\n- Do not copy a specific existing ad or another brand's product. Use the written brief to create an original scene.\n- Follow the requested aspect ratio. If none is specified, use a balanced composition with enough room around the product for flexible cropping.\n\nREALISM\nPhotorealistic lifestyle product photography shot on a real camera. Natural environmental textures, physically plausible light direction, believable reflections, contact shadows, subtle atmospheric depth, realistic depth of field, natural contrast, slight film grain and true-to-life colors.\n\nAVOID\nAltered packaging, invented or misspelled logos, floating products, incorrect scale, inconsistent reflections, impossible shadows, random props, clutter, overly staged CGI look, excessive bokeh, extra text, watermark, or a scene that conflicts with the product's intended use.\n\nSCENE BRIEF TEMPLATE\nProduct: [product name/category]\nLocation: [cafe, bathroom, kitchen, outdoor, desk, etc.]\nMood: [fresh, warm, clinical, playful, luxurious, natural, etc.]\nLighting: [soft window light, direct sunlight, studio key light, dusk, etc.]\nSurface and props: [materials and optional supporting objects]\nComposition: [close-up, wide shot, eye-level, flat lay, negative space location]\nAspect ratio: [1:1, 4:5, 3:2, 16:9, etc.]\n\nTIPS\n- Describe the intended setting and mood in concrete terms instead of saying only “make it aesthetic.”\n- Upload clean product photos, ideally including front and side angles.\n- Keep the number of props low unless the concept requires a richer scene.\n- If the product becomes inaccurate, regenerate with a simpler scene and stronger product-preservation instructions. Replace logos or labels manually if exact fidelity is essential.\n- Review the image at 100% zoom before commercial use.",
                 "json": "{\n  \"task\": \"product_lifestyle_scene\",\n  \"inputs\": {\n    \"product_images\": \"All attached images show the actual product from one or more angles. Use them as the source of truth for product identity and packaging.\",\n    \"scene_brief\": {\n      \"location\": \"User-defined real-world environment; infer a plausible simple setting if omitted.\",\n      \"mood\": \"User-defined brand atmosphere or emotional tone.\",\n      \"lighting\": \"User-defined light quality and time of day, or choose a plausible setup.\",\n      \"surface_and_props\": \"Optional surface materials and supporting props; keep props relevant and restrained.\",\n      \"composition\": \"Optional framing, camera angle, focal hierarchy and negative-space direction.\",\n      \"aspect_ratio\": \"Use the user's requested format; if unspecified, choose a flexible balanced composition.\"\n    }\n  },\n  \"product_fidelity\": \"Preserve exact shape, proportions, packaging structure, materials, colors, logo, label layout, typography and visible text. Do not redesign, simplify or invent details.\",\n  \"art_direction\": \"Create an original, coherent commercial lifestyle photograph with a clear focal point, intentional composition, controlled lighting and a palette that complements the product. Place the product naturally in the environment with believable scale, contact points, reflections and shadows.\",\n  \"props\": \"Use only relevant supporting props and do not obscure branding. Do not copy a specific existing ad or another brand's product.\",\n  \"realism\": \"Photorealistic lifestyle product photography, natural environmental textures, physically plausible light, believable reflections, contact shadows, realistic depth of field, natural contrast, subtle grain and true-to-life colors.\",\n  \"avoid\": \"Altered packaging, invented or misspelled logos, floating products, incorrect scale, inconsistent reflections, impossible shadows, random props, clutter, CGI look, excessive bokeh, extra text, watermark or an implausible use context.\"\n}"
+            },
+{
+                        "id": "11",
+                        "title": "Image Upscaler",
+                        "tag": "Sharpen, clean and recover detail without changing the image",
+                        "icon": "expand",
+                        "order": [
+                                    "Image 1: the photo to enhance, at the largest size you have"
+                        ],
+                        "text": "IMAGE UPSCALER AND DETAIL ENHANCER\n\nImage 1 is the IMAGE TO ENHANCE. Keep every element of it.\n\nTASK\nProduce a sharper, cleaner, higher-detail version of Image 1 with the same composition, subject, colors, lighting and framing.\n\nSTEP 1: STUDY THE IMAGE\nIdentify the main subject, every visible text or logo, all edges and fine textures (hair, fabric, food, packaging), and any noise, blur, compression artifacts or halos.\n\nSTEP 2: ENHANCE\n- Keep the composition, crop, subjects, poses, colors, lighting and background exactly as they are. Do not add, remove, move or replace anything.\n- Recover fine detail in textures and edges: hair strands, fabric weave, skin pores, food texture, label print.\n- Remove noise, JPEG blocking and blur while keeping the look natural. Do not turn the image into plastic or painted.\n- Keep all text and logos exactly as they appear. Make them crisp. Never redraw or invent letters.\n- Keep faces identical. Do not change facial features, expression or proportions.\n- Output at the highest resolution available, with the same aspect ratio as Image 1.\n\nREALISM\nNatural film grain, true-to-life colors, natural contrast, realistic edges. No oversharpening halos, no HDR look, no beauty smoothing, and no added texture that was not in the original.\n\nAVOID\nAdding objects, changing colors or lighting, changing text, watermarks, new background elements, distorted faces or hands, or any change to the composition.",
+                        "json": "{\n  \"task\": \"image_upscale_and_enhance\",\n  \"inputs\": {\n    \"image_1\": \"IMAGE TO ENHANCE. Keep every element: subject, pose, composition, crop, colors, lighting, background, text and logos.\"\n  },\n  \"instructions\": [\n    \"Study image_1: identify the subject, all visible text and logos, edges and fine textures, and any noise, blur, compression artifacts or halos.\",\n    \"Keep the composition, crop, subjects, poses, colors, lighting and background exactly as they are. Do not add, remove, move or replace anything.\",\n    \"Recover fine detail in textures and edges such as hair, fabric, skin pores, food texture and label print.\",\n    \"Remove noise, JPEG blocking and blur while keeping the look natural.\",\n    \"Keep all text and logos exactly as they appear and make them crisp. Never redraw or invent letters.\",\n    \"Keep faces identical. Do not change facial features, expression or proportions.\",\n    \"Generate one image at the highest resolution available, with the same aspect ratio as image_1.\"\n  ],\n  \"realism\": \"Natural film grain, true-to-life colors, natural contrast, realistic edges. No oversharpening halos, no HDR look, no beauty smoothing, and no added texture that was not in the original.\",\n  \"avoid\": \"Adding objects, changing colors or lighting, changing text, watermarks, new background elements, distorted faces or hands, or any change to the composition.\"\n}"
+            },
+{
+                        "id": "12",
+                        "title": "Mockup Placement",
+                        "tag": "Apply a logo or artwork onto a product or packaging surface",
+                        "icon": "layers",
+                        "order": [
+                                    "Image 1: the mockup base (product, packaging or surface)",
+                                    "Image 2: the design or logo to place"
+                        ],
+                        "text": "MOCKUP PLACEMENT\n\nImage 1 is the MOCKUP BASE: the product, packaging, label or surface the design goes onto.\nImage 2 is the DESIGN: the logo or artwork to place. Use it exactly as supplied.\n\nTASK\nPlace the design from Image 2 onto the surface of Image 1 so it looks printed or applied on that real object.\n\nSTEP 1: STUDY THE BASE\nIdentify the surface where the design goes: its shape, curves, folds, edges, material (paper, plastic, fabric, glass, metal), finish (matte, gloss) and any existing text or graphics. Note where light falls and where shadows and highlights sit.\n\nSTEP 2: STUDY THE DESIGN\nKeep the design's exact shape, proportions, colors, typography and details from Image 2. Do not redraw, simplify or restyle it.\n\nSTEP 3: PLACE THE DESIGN\n- Position the design on the intended surface, centered or as the base shows, with the same orientation and scale the surface allows.\n- Let the design follow the surface: bend it over curves, compress it at edges, and break it slightly at folds, as a real print would.\n- Match the lighting of Image 1. Keep the highlights and shadows of the surface visible on top of the design.\n- Keep the material's finish. A gloss surface should show reflections over the design, and a matte surface should not.\n- Keep everything else in Image 1 exactly as it is: the product shape, background, other text and colors. Do not add or remove anything.\n- Use the aspect ratio of Image 1.\n\nREALISM\nPhotorealistic product photograph. Natural print texture and ink on the surface, believable shadows and reflections, true-to-life colors, sharp detail on the design. No CGI look, no plastic sheen, no floating or pasted appearance.\n\nAVOID\nChanging the product shape, changing the design's colors or text, adding extra text or logos, watermarks, distorted or warped lettering, a flat sticker look, or any change to the background.",
+                        "json": "{\n  \"task\": \"mockup_placement\",\n  \"inputs\": {\n    \"image_1\": \"MOCKUP BASE: the product, packaging, label or surface the design goes onto. Keep its shape, background, other text, colors and lighting.\",\n    \"image_2\": \"DESIGN: the logo or artwork to place. Keep its exact shape, proportions, colors, typography and details. Do not redraw or restyle it.\"\n  },\n  \"placement\": {\n    \"surface\": \"Identify the surface where the design goes: shape, curves, folds, edges, material and finish.\",\n    \"fit\": \"Let the design follow the surface: bend over curves, compress at edges, break slightly at folds, as a real print would.\",\n    \"lighting\": \"Match the lighting of image_1. Keep the surface's highlights and shadows visible on top of the design.\",\n    \"finish\": \"Gloss surfaces show reflections over the design. Matte surfaces do not.\"\n  },\n  \"instructions\": [\n    \"Study image_1 to find the placement surface and its material, finish and lighting.\",\n    \"Study image_2 and keep its exact shape, colors and typography.\",\n    \"Place the design on the surface with the orientation and scale the surface allows.\",\n    \"Keep everything else in image_1 exactly as it is.\",\n    \"Generate one photograph at the aspect ratio of image_1.\"\n  ],\n  \"realism\": \"Photorealistic product photograph. Natural print texture and ink on the surface, believable shadows and reflections, true-to-life colors, sharp detail on the design. No CGI look, no plastic sheen, no floating or pasted appearance.\",\n  \"avoid\": \"Changing the product shape, changing the design's colors or text, adding extra text or logos, watermarks, distorted or warped lettering, a flat sticker look, or any change to the background.\"\n}"
+            },
+{
+                        "id": "13",
+                        "title": "Background Replacement",
+                        "tag": "Swap the background and keep the subject exactly",
+                        "icon": "image",
+                        "order": [
+                                    "Image 1: the subject or product to keep",
+                                    "Optional: Image 2, a background reference"
+                        ],
+                        "text": "BACKGROUND REPLACEMENT\n\nImage 1 is the SUBJECT. Keep it exactly as it is.\nImage 2 (optional) is a BACKGROUND REFERENCE. If it is not supplied, use a plain studio background described below.\n\nTASK\nReplace the background of Image 1 with the new background, and keep the subject unchanged.\n\nSTEP 1: CUT THE SUBJECT\nFind the exact edge of the subject: hair, fabric, fine details, shadows it casts. Keep every edge sharp and natural. Do not cut off any part of the subject.\n\nSTEP 2: BUILD THE BACKGROUND\n- If Image 2 is supplied, use its background style, color and light direction.\n- If not, use a seamless, plain soft neutral background, evenly lit, with no props, no texture and no pattern.\n\nSTEP 3: COMBINE\n- Keep the subject's pose, colors, lighting, texture and proportions exactly as in Image 1.\n- Match the light on the subject to the new background. Add a soft, realistic contact shadow where the subject meets the surface.\n- Keep fine edges such as hair and fabric natural, with no halo or white outline.\n- Use the aspect ratio of Image 1.\n\nREALISM\nPhotorealistic photograph. Natural depth and believable light falloff, true-to-life colors, sharp subject detail. No cutout look, no glowing edges, no CGI look.\n\nAVOID\nChanging the subject, altering its face, hands or product details, adding props, text, logos or watermarks, cropping off any part of the subject, or visible halos around the edges.",
+                        "json": "{\n  \"task\": \"background_replacement\",\n  \"inputs\": {\n    \"image_1\": \"SUBJECT. Keep its pose, colors, lighting, texture, proportions and every detail exactly as they are.\",\n    \"image_2\": \"BACKGROUND REFERENCE (optional). Use its background style, color and light direction. If not supplied, use a plain seamless neutral studio background.\"\n  },\n  \"instructions\": [\n    \"Cut the subject from image_1 with a precise natural edge, including hair, fabric and fine details. Do not cut off any part.\",\n    \"Build the background from image_2, or a plain seamless neutral studio background if image_2 is not supplied.\",\n    \"Match the light on the subject to the new background and add a soft, realistic contact shadow.\",\n    \"Keep edges natural with no halo or white outline.\",\n    \"Generate one photograph at the aspect ratio of image_1.\"\n  ],\n  \"realism\": \"Photorealistic photograph. Natural depth and believable light falloff, true-to-life colors, sharp subject detail. No cutout look, no glowing edges, no CGI look.\",\n  \"avoid\": \"Changing the subject, altering its face, hands or product details, adding props, text, logos or watermarks, cropping off any part of the subject, or visible halos around the edges.\"\n}"
+            },
+{
+                        "id": "14",
+                        "title": "Flat Lay Composition",
+                        "tag": "Arrange products or items from above on one surface",
+                        "icon": "camera",
+                        "order": [
+                                    "Image 1: the main product",
+                                    "Image 2 onward: the other items to arrange (optional)"
+                        ],
+                        "text": "FLAT LAY COMPOSITION\n\nImage 1 is the MAIN PRODUCT. Keep its shape, packaging, label and colors exactly.\nImages 2 onward are SUPPORTING ITEMS. Use each one exactly as supplied.\n\nTASK\nCreate one overhead flat lay photograph with all items arranged on one surface, shot from directly above.\n\nSTEP 1: STUDY THE ITEMS\nFor each image, identify the item, its shape, colors, packaging and any visible text or logo. Keep each item faithful to its image.\n\nSTEP 2: ARRANGE\n- Place Image 1 as the hero item, near the center or on the rule of thirds.\n- Arrange the supporting items around it in a balanced, uncluttered layout. Leave clear negative space.\n- Keep every item fully visible. Do not overlap items so much that a logo or label is hidden.\n- Keep the arrangement simple, with no more than the items supplied plus minimal matching props.\n\nSTEP 3: LIGHT AND SURFACE\n- Shoot from directly overhead, with soft, even light and gentle shadows that are consistent in direction.\n- Use one clean surface, such as light wood, marble or plain paper, that suits the products.\n- Keep the surface free of distracting marks.\n\nREALISM\nPhotorealistic flat lay photograph. True-to-life colors, sharp detail on every item, natural material texture, believable soft shadows. No CGI look, no plastic sheen.\n\nAVOID\nChanging any item's shape, colors, label or text, adding extra products or logos, watermarks, hands unless supplied, clutter, or perspective that is not straight overhead.",
+                        "json": "{\n  \"task\": \"flat_lay_composition\",\n  \"inputs\": {\n    \"image_1\": \"MAIN PRODUCT. Keep its shape, packaging, label and colors exactly.\",\n    \"image_2_onward\": \"SUPPORTING ITEMS (optional). Use each one exactly as supplied, with its shape, colors and any visible text.\"\n  },\n  \"layout\": {\n    \"camera\": \"Directly overhead, straight down.\",\n    \"hero\": \"image_1 near the center or on the rule of thirds.\",\n    \"support\": \"Supporting items arranged around the hero in a balanced layout with clear negative space. No overlap that hides a logo or label.\"\n  },\n  \"lighting\": \"Soft, even light with consistent shadow direction.\",\n  \"surface\": \"One clean surface that suits the products, such as light wood, marble or plain paper, free of distracting marks.\",\n  \"instructions\": [\n    \"Study each supplied item and keep its exact shape, colors and text.\",\n    \"Arrange the items as described in layout.\",\n    \"Keep every item fully visible.\",\n    \"Generate one overhead photograph.\"\n  ],\n  \"realism\": \"Photorealistic flat lay photograph. True-to-life colors, sharp detail on every item, natural material texture, believable soft shadows. No CGI look, no plastic sheen.\",\n  \"avoid\": \"Changing any item's shape, colors, label or text, adding extra products or logos, watermarks, hands unless supplied, clutter, or perspective that is not straight overhead.\"\n}"
+            },
+{
+                        "id": "15",
+                        "title": "Floating Ingredients",
+                        "tag": "A food hero shot with ingredients floating around the dish",
+                        "icon": "utensils",
+                        "order": [
+                                    "Image 1: the finished dish",
+                                    "Image 2 onward: the ingredients to float around it (optional)"
+                        ],
+                        "text": "FLOATING INGREDIENTS (FOOD HERO SHOT)\n\nImage 1 is the FINISHED DISH. Keep it exactly as it is: its ingredients, sauce, colors, plate and portion.\nImages 2 onward are INGREDIENTS to float around the dish. Use each one exactly as supplied.\n\nTASK\nCreate one dramatic food photograph of the dish from Image 1, with the supplied ingredients floating in the air around it.\n\nSTEP 1: STUDY THE DISH\nKeep every ingredient in Image 1 with its original color, texture, sauce and shine. Do not add, remove or change any dish item.\n\nSTEP 2: STUDY THE INGREDIENTS\nKeep each supplied ingredient's shape, color and texture. Do not replace them with different ingredients.\n\nSTEP 3: COMPOSE\n- Keep the dish as the hero, centered or on the rule of thirds, sitting on its plate.\n- Float the ingredients around the dish in a balanced, natural arc, with some moving upward and some slightly blurred.\n- Keep the ingredients' scale believable compared with the dish.\n- Use a clean, dark or neutral background for contrast, with soft directional light from one side.\n\nREALISM\nPhotorealistic food photography. Natural sauce shine and texture, crisp ingredient detail, believable motion, true-to-life colors. No CGI look, no plastic-looking food.\n\nAVOID\nChanging the dish or its ingredients, adding unsupplied ingredients, hands or utensils, extra text, logos or watermarks, a cluttered background, or ingredients that are cut off by the frame.",
+                        "json": "{\n  \"task\": \"floating_ingredients_food_shot\",\n  \"inputs\": {\n    \"image_1\": \"FINISHED DISH. Keep its ingredients, sauce, colors, plate and portion exactly as they are.\",\n    \"image_2_onward\": \"INGREDIENTS (optional). Float each one exactly as supplied, keeping its shape, color and texture.\"\n  },\n  \"composition\": {\n    \"hero\": \"The dish from image_1, centered or on the rule of thirds.\",\n    \"floating\": \"Supplied ingredients float in a balanced natural arc around the dish, some slightly blurred for motion.\",\n    \"scale\": \"Ingredients stay believable in scale compared with the dish.\"\n  },\n  \"lighting\": \"Soft directional light from one side on a clean, dark or neutral background.\",\n  \"instructions\": [\n    \"Keep every ingredient in image_1 unchanged.\",\n    \"Keep each supplied ingredient's shape, color and texture.\",\n    \"Compose the hero dish with the floating ingredients as described.\",\n    \"Generate one photograph.\"\n  ],\n  \"realism\": \"Photorealistic food photography. Natural sauce shine and texture, crisp ingredient detail, believable motion, true-to-life colors. No CGI look, no plastic-looking food.\",\n  \"avoid\": \"Changing the dish or its ingredients, adding unsupplied ingredients, hands or utensils, extra text, logos or watermarks, a cluttered background, or ingredients cut off by the frame.\"\n}"
             }
 
         ];
@@ -745,6 +806,106 @@
                 steps: ["Upload clear product images with the packaging and label visible.", "Describe a believable environment and the intended brand mood in concrete terms.", "Specify lighting and camera framing; add only a few supporting props that make sense for the setting.", "Generate the lifestyle scene and inspect whether the product sits naturally in the environment.", "Check scale, reflections, contact shadows, labels and consistency between the scene and product use."],
                 check: ["The product identity, geometry, packaging and colors remain faithful to the supplied photos.", "The environment supports the product's intended use and brand mood.", "Props do not obscure the product or introduce conflicting branding.", "Perspective, scale, reflections and shadows feel physically plausible."],
                 fix: "If the scene becomes cluttered or the product changes, simplify the brief and prioritize product fidelity over environmental detail. Generate the scene with fewer props, then manually restore logos or labels that must be exact."
+            },
+            "11": {
+                            purpose: "Clean up and sharpen an existing image, recovering fine detail while keeping the composition, colors and identity exactly as they are.",
+                            setup: [
+                                            "Image 1: the photo to enhance, as large and sharp as you have it.",
+                                            "Optional: a close-up of any text or logo that must stay exact."
+                            ],
+                            steps: [
+                                            "Upload the image at the largest size you have.",
+                                            "Paste the prompt and generate, then compare the result with the original at 100% zoom.",
+                                            "Check faces, text and logos first, because they show errors fastest.",
+                                            "If the image is still soft, run a dedicated upscaler (such as Upscayl, Real-ESRGAN or Topaz) for a true resolution increase, then use this prompt only for cleanup.",
+                                            "Use the result only if it matches the original composition."
+                            ],
+                            check: [
+                                            "Composition, colors, lighting and background match the original.",
+                                            "Faces, hands and text are not altered.",
+                                            "No new objects, halos, plastic texture or invented letters appear."
+                            ],
+                            fix: "If the result changes too much, reduce the request to one job at a time: first denoise, then sharpen. Generative models cannot add real pixels, so for a true resolution increase use a dedicated upscaler and keep the AI pass for cleanup."
+            },
+            "12": {
+                            purpose: "Place a logo or artwork onto a real product or packaging surface so it follows the curves, folds and lighting of that object.",
+                            setup: [
+                                            "Image 1: the mockup base, a clear photo of the product or packaging with the placement surface fully visible.",
+                                            "Image 2: the design or logo on a plain background, with its exact colors and shape."
+                            ],
+                            steps: [
+                                            "Upload the mockup base first, then the design.",
+                                            "Paste the prompt and generate, then compare the design with Image 2 at 100% zoom.",
+                                            "Check the lettering and the edges of the design first, because they show warping fastest.",
+                                            "Check that highlights and shadows of the surface sit on top of the design.",
+                                            "Use the result only if the design matches its original colors and the product is unchanged."
+                            ],
+                            check: [
+                                            "The design keeps its shape, colors and typography.",
+                                            "The design follows the surface and does not look pasted on.",
+                                            "The product shape, background and other text are unchanged."
+                            ],
+                            fix: "If the design looks flat, describe the surface more clearly in words, for example 'curved glass bottle' or 'matte cardboard box with a fold'. If the lettering warps, use a simpler design or place it on a flatter part of the surface, then edit the result manually."
+            },
+            "13": {
+                            purpose: "Replace the background behind a subject or product while keeping the subject unchanged, with a clean natural edge.",
+                            setup: [
+                                            "Image 1: the subject or product on its current background, sharp and well lit.",
+                                            "Optional: Image 2, a background reference. If you skip it, a plain studio background is used."
+                            ],
+                            steps: [
+                                            "Upload the subject first, then the background reference if you have one.",
+                                            "Paste the prompt and generate.",
+                                            "Check the edges of hair, fabric and product at 100% zoom.",
+                                            "Check that the subject's colors and details match Image 1.",
+                                            "Use the result only if no part of the subject was cut off or changed."
+                            ],
+                            check: [
+                                            "The subject keeps its pose, colors, face and product details.",
+                                            "The edges are clean with no halo.",
+                                            "The shadow and light on the subject match the new background."
+                            ],
+                            fix: "If edges look cut out, ask for softer edges on fine details and a stronger contact shadow. If the subject changes, lower the request to background only and keep the subject instructions first."
+            },
+            "14": {
+                            purpose: "Arrange a main product and supporting items from directly above on one clean surface, with a balanced layout.",
+                            setup: [
+                                            "Image 1: the main product on a plain background, shot straight on and sharp.",
+                                            "Image 2 onward: supporting items, each shot clearly, to add to the arrangement."
+                            ],
+                            steps: [
+                                            "Upload the main product first, then the supporting items in the order you want them.",
+                                            "Paste the prompt and generate.",
+                                            "Check that every label and logo is visible.",
+                                            "Check that the shadows point the same direction across all items.",
+                                            "Use the result only if each item is unchanged and fully visible."
+                            ],
+                            check: [
+                                            "Each item keeps its shape, colors and text.",
+                                            "The layout is balanced with clear space around the hero item.",
+                                            "The shadows are consistent and the view is straight overhead."
+                            ],
+                            fix: "If items overlap or get hidden, ask for fewer items or more space between them. If the view is angled, repeat 'directly overhead, straight down' at the start of the prompt."
+            },
+            "15": {
+                            purpose: "Create a food hero shot with supplied ingredients floating around a finished dish, keeping the dish itself unchanged.",
+                            setup: [
+                                            "Image 1: the finished dish on its plate, sharp and well lit.",
+                                            "Image 2 onward: the ingredients to float, each on a plain background if possible."
+                            ],
+                            steps: [
+                                            "Upload the dish first, then the ingredients.",
+                                            "Paste the prompt and generate.",
+                                            "Check the dish's ingredients against Image 1 at 100% zoom.",
+                                            "Check that each floating ingredient looks like the one you supplied.",
+                                            "Use the result only if the dish is unchanged and the scale looks believable."
+                            ],
+                            check: [
+                                            "The dish and its ingredients match Image 1.",
+                                            "Floating ingredients match the supplied ones.",
+                                            "No unsupplied items, hands or text appear."
+                            ],
+                            fix: "If the ingredients look fake or too large, ask for smaller ingredients and more motion blur. If the dish changes, lower the request to the dish alone and add the floating ingredients in a second pass."
             }
 
         };
@@ -1078,19 +1239,26 @@ Check silhouette and proportions against Image 1; check logo/label and colors; c
                 return `<section class="rounded-2xl border border-[#2a2c33] bg-[#111216] p-5 md:p-6 space-y-4"><div><h3 class="text-lg font-semibold text-white">${title}</h3>${hint ? `<p class="text-xs text-gray-500 mt-1">${hint}</p>` : ''}</div>${body}</section>`;
             },
             reverseDesignBody() {
-                const fields = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fLabel('Design title or project name', this.fText('rd-title', 'e.g. Summer Sale Poster'))}${this.fLabel('Exact required headline', this.fText('rd-headline', 'Written exactly as it should appear'))}${this.fLabel('Exact required subheadline', this.fText('rd-subheadline', 'Written exactly as it should appear'))}${this.fLabel('CTA', this.fText('rd-cta', 'e.g. Shop now'))}</div>`
-                    + `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fLabel('Body copy', this.fArea('rd-body', 'Paragraph text, exactly as it should appear', 3))}${this.fLabel('Additional mandatory text', this.fArea('rd-mandatory', 'Dates, legal lines, prices, etc.', 3))}</div>`
-                    + `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fLabel('Additional elements to include', this.fArea('rd-add', 'e.g. a small badge in the top-right corner', 3))}${this.fLabel('Elements to remove or replace', this.fArea('rd-remove', 'e.g. replace the reference headline and the logo', 3))}</div>`;
-                const layout = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fLabel('Canvas dimensions and aspect ratio', this.fText('rd-canvas', 'e.g. 4:5 portrait, 1080 x 1350'))}${this.fLabel('Reference fidelity level', this.fSelect('rd-fidelity', ['Strict Layout Reconstruction', 'Structural Inspiration', 'Loose Inspiration']))}${this.fLabel('Composition flexibility', this.fSelect('rd-flex', ['Low', 'Medium', 'High']))}${this.fLabel('Typography direction', this.fText('rd-typography', 'e.g. bold geometric sans, large headline'))}${this.fLabel('Palette preference', this.fText('rd-palette', 'e.g. keep the reference palette, or warm orange'))}${this.fLabel('Background treatment', this.fText('rd-background', 'e.g. clean solid background'))}</div>${this.fLabel('Optional visual direction notes', this.fArea('rd-visual', 'Mood, details or anything else the design should follow', 3))}`;
-                return `<div class="space-y-6">${this.header('DESIGN RECONSTRUCTION', 'Reverse Engineer Design', 'Image 1 is the design reference. Add source assets as Image 2 onward and give each one a role. Enter your exact text, then generate an editable prompt. This tool builds the prompt only. It does not analyze image pixels and does not generate images.')}`
+                const grid2 = 'grid grid-cols-1 md:grid-cols-2 gap-4';
+                const lock = `<div data-brand-card class="mt-4 rounded-xl border border-[#2a2c33] bg-[#0b0c0e] p-4 space-y-3"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-200">Product identity</span><span data-brand-status class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#202228] text-gray-400 border border-[#3a3d45]">Off</span></div><label class="flex items-center gap-2 text-xs text-gray-300"><input id="rd-lock-on" type="checkbox" onchange="app.brandToggle(this)" class="accent-[#E8743B]"> Keep the product exactly as in the source photo</label><p class="text-[11px] text-gray-500">Shape, proportions, packaging, label and colors are locked. Use this when a real product must stay accurate.</p></div>`;
+                const text = `<div class="${grid2}">${this.fLabel('Design title or project name', this.fText('rd-title', 'e.g. Summer Sale Poster'))}${this.fLabel('Exact required headline', this.fText('rd-headline', 'Written exactly as it should appear'))}${this.fLabel('Exact required subheadline', this.fText('rd-subheadline', 'Written exactly as it should appear'))}${this.fLabel('CTA', this.fText('rd-cta', 'e.g. Shop now'))}</div>`
+                    + `<div class="${grid2}">${this.fLabel('Body copy', this.fArea('rd-body', 'Paragraph text, exactly as it should appear', 3))}${this.fLabel('Additional mandatory text', this.fArea('rd-mandatory', 'Dates, legal lines, prices, etc.', 3))}</div>`
+                    + `<div class="${grid2}">${this.fLabel('Additional elements to include', this.fArea('rd-add', 'e.g. a small badge in the top-right corner', 3))}${this.fLabel('Elements to remove or replace', this.fArea('rd-remove', 'e.g. replace the reference headline and the logo', 3))}</div>`;
+                const style = `<div class="${grid2}">${this.fLabel('Reference fidelity level', this.fSelect('rd-fidelity', ['Strict Layout Reconstruction', 'Structural Inspiration', 'Loose Inspiration']))}${this.fLabel('Composition flexibility', this.fSelect('rd-flex', ['Low', 'Medium', 'High']))}${this.fLabel('Typography direction', this.fText('rd-typography', 'e.g. bold geometric sans, large headline'))}${this.fLabel('Palette preference', this.fText('rd-palette', 'e.g. keep the reference palette, or warm orange'))}${this.fLabel('Background treatment', this.fText('rd-background', 'e.g. clean solid background'))}</div>`;
+                const canvas = this.fLabel('Canvas dimensions and aspect ratio', this.rdRatioHtml() + this.fText('rd-canvas', 'e.g. 4:5 portrait, 1080 x 1350'));
+                const visual = this.fLabel('Optional visual direction notes', this.fArea('rd-visual', 'Mood, details or anything else the design should follow', 3)) + this.rdChipsHtml() + this.rdBrandHtml();
+                return `<div class="space-y-6">${this.header('DESIGN RECONSTRUCTION', 'Reverse Engineer Design', 'Image 1 is the design reference. Add product photos and source assets, give each one a role, enter your exact text, then generate an editable prompt. This tool builds the prompt only. It does not analyze image pixels and does not generate images.')}`
                     + `<div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(300px,.85fr)] gap-5"><div class="space-y-5">`
-                    + this.panel('Image 1 · Primary design reference', 'The layout, grid, hierarchy, color and treatment to reconstruct.', `${this.fFile('rd-primary', 'Choose the primary design reference', false, "document.getElementById('rd-primary-name').textContent=this.files[0]?this.files[0].name:'No primary reference selected.'")}<p id="rd-primary-name" class="text-xs text-gray-500">No primary reference selected.</p>`)
-                    + this.panel('Image 2 onward · Source assets', 'Products, people, characters, logos, illustrations or objects. Each one gets its own role and notes.', `${this.fFile('rd-sources', 'Add source assets (you can select several)', true, "app.renderSourceRows('rd')")}<div id="rd-sources-list" class="space-y-2"><p class="text-xs text-gray-500">No source assets yet.</p></div>`)
-                    + this.panel('Text and content', 'Enter exact wording. Leave a field blank if it is not needed.', fields)
-                    + this.panel('Layout and style', '', layout)
+                    + this.panelStep(1, 'Primary design reference', 'The layout, grid, hierarchy, color and treatment to reconstruct. Add your product here too if the product must stay exact.', this.fDrop('rd-primary', 'Primary design reference', 'Layout, grid, hierarchy, color and treatment') + lock)
+                    + this.panelStep(2, 'Source assets', 'Products, people, logos, illustrations or objects. Give each one a role and a note.', this.fDropMulti('rd-sources', 'Source assets', 'Select several files at once', "app.renderSourceRows('rd')") + `<div id="rd-sources-list" class="space-y-2"><p class="text-xs text-gray-500">No source assets yet.</p></div>`)
+                    + this.panelStep(3, 'Text and content', 'Enter exact wording. Leave a field blank if it is not needed.', text)
+                    + this.panelStep(4, 'Layout and style', 'Canvas, fidelity, typography, palette and visual direction.', canvas + style + visual)
                     + `</div><div class="space-y-5">`
-                    + this.panel('Output', 'Generate, preview or copy the prompt. The text box is editable.', `<div class="flex flex-wrap gap-2">${this.fBtn('Generate Prompt', "app.buildReverseDesign()", true)}${this.fBtn('Preview final prompt', "app.buildReverseDesign(true)")}${this.fBtn('Copy Prompt', "app.copyToolOutput('rd-output')")}${this.fBtn('Copy All', "app.copyToolOutput('rd-output', true)")}${this.fBtn('Clear / Reset', "app.resetNewTool('reverse-design')")}</div>${this.fOutput('rd-output', 'Your generated prompt appears here. Edit it before copying.')}<p class="text-xs text-gray-500">Attach the images in the order shown (Image 1 first, then Image 2 onward).</p>`)
+                    + this.panel('Output', 'Generate, preview or copy the prompt. The text box is editable.', `<div class="flex flex-wrap gap-2">${this.fBtn('Generate Prompt', "app.buildReverseDesign()", true)}${this.fBtn('Preview final prompt', "app.buildReverseDesign(true)")}${this.fBtn('Copy Prompt', "app.copyToolOutput('rd-output')")}${this.fBtn('Copy All', "app.copyToolOutput('rd-output', true)")}${this.fBtn('Clear / Reset', "app.resetNewTool('reverse-design')")}</div>${this.fOutput('rd-output', 'Your generated prompt appears here. Edit it before copying.')}<p class="text-xs text-gray-500">Attach the images in the order shown (Image 1 first, then Image 2 onward).</p><div class="mt-4 space-y-3"><div class="flex flex-wrap items-center gap-3">${this.fBtn('Generate image', "app.generateImage()", true)}<span id="rd-gen-status" class="text-xs text-gray-500"></span></div><div id="rd-result" class="hidden rounded-xl border border-[#2a2c33] bg-[#0b0c0e] p-3 space-y-3"></div></div>`)
                     + `</div></div></div>`;
+            },
+            fDropMulti(id, title, hint, onchange) {
+                return `<div class="rounded-2xl border-2 border-dashed border-[#E8743B]/50 bg-[#17110d] p-4 text-center space-y-2"><div class="text-xs font-semibold text-gray-200">${title}</div><div class="text-[11px] text-gray-500">${hint}</div><label class="inline-block cursor-pointer rounded-lg bg-[#E8743B] px-4 py-2 text-xs font-bold text-black">Choose files<input id="${id}" type="file" accept="image/*" multiple class="sr-only" onchange="${onchange}"></label></div>`;
             },
             renderSourceRows(prefix, saved = []) {
                 const input = document.getElementById(prefix === 'rd' ? 'rd-sources' : '');
@@ -1159,7 +1327,7 @@ STYLE CONTROLS
 - Background treatment: ${v('rd-background') || 'follow the reference background'}
 - Composition flexibility: ${flex}
 
-VISUAL DIRECTION NOTES
+${document.getElementById('rd-lock-on')?.checked ? 'PRODUCT IDENTITY LOCK\nKeep the product shape, proportions, packaging, label and colors exactly as in its source photo. Do not redesign the product.\n\n' : ''}${document.getElementById('rd-brand-on')?.checked ? 'BRAND IDENTITY\nName: ' + (v('rd-brand-name') || 'not provided') + '\nColors: ' + (v('rd-brand-colors') || 'not provided') + '\nUse these colors as the palette accent where they fit. Do not add any logo, slogan or claim that was not supplied.\n\n' : ''}VISUAL DIRECTION NOTES
 ${v('rd-visual') || 'None.'}
 
 RECONSTRUCTION
@@ -1177,16 +1345,16 @@ Compare the result against the reference layout, the source asset roles, the exa
             },
             illustrationBody() {
                 const presets = this.ilPresets.map(([name, desc, swatch], i) => `<label class="rounded-xl border border-[#2a2c33] bg-[#0b0c0e] p-3 cursor-pointer hover:border-brand-500/50 block"><input type="radio" name="il-preset" value="${i}"${i === 0 ? ' checked' : ''} class="mr-2 align-middle accent-[#c8f73a]"><span class="text-xs font-semibold text-white align-middle">${name}</span><div class="h-12 rounded-lg my-2" style="background:${swatch}"></div><div class="text-[11px] text-gray-500">${desc}</div></label>`).join('');
-                const refs = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fFile('il-ref-style', 'Style reference: technique, linework, shapes, texture, shading, color')}${this.fFile('il-ref-pose', 'Pose reference: body position, gesture, silhouette only')}${this.fFile('il-ref-subject', 'Subject reference: character, person or object identity only')}${this.fFile('il-ref-comp', 'Composition reference: framing and placement only')}</div><p class="text-xs text-gray-500">All references are optional. Each one is used only for its own role, and a style is never taken from a pose reference.</p><div class="flex flex-wrap items-center gap-2"><button type="button" id="il-analyze-btn" onclick="app.analyzeIllustrationRefs()" class="bg-brand-500 hover:bg-brand-400 text-black font-bold text-xs px-4 py-2 rounded-xl transition disabled:opacity-60">Analyze references with AI</button><span class="text-[11px] text-gray-500">Gemini describes each uploaded reference for its role. The result is added to your prompt.</span></div><div id="il-analysis-wrap" class="hidden space-y-2"><span class="text-xs font-semibold text-gray-300">AI reference analysis (editable)</span><textarea id="il-ref-analysis" rows="10" class="${this.fc()} font-mono text-xs leading-relaxed"></textarea><label class="flex gap-2 text-xs text-gray-300"><input id="il-use-analysis" type="checkbox" checked class="accent-[#c8f73a]"> Include this analysis in the generated prompt</label></div>`;
+                const refs = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fDrop('il-ref-style', 'Style reference', 'Technique, linework, shapes, texture, shading, color')}${this.fDrop('il-ref-pose', 'Pose reference', 'Body position, gesture and silhouette only')}${this.fDrop('il-ref-subject', 'Subject reference', 'Character, person or object identity only')}${this.fDrop('il-ref-comp', 'Composition reference', 'Framing and placement only')}</div><p class="text-xs text-gray-500">All references are optional. Each one is used only for its own role, and a style is never taken from a pose reference.</p><div class="flex flex-wrap items-center gap-3 mt-3"><button id="il-analyze-btn" type="button" onclick="app.analyzeReferences()" class="bg-brand-500 hover:bg-brand-400 text-black font-bold text-xs px-4 py-2 rounded-xl transition">Analyze references with AI</button><span id="il-analysis-status" class="text-xs text-gray-500"></span></div><label class="block space-y-2 mt-3"><span class="text-xs font-semibold text-gray-300">Reference analysis (editable, added to the prompt)</span><textarea id="il-analysis" rows="6" placeholder="Click 'Analyze references with AI', or type your own description of the references here." class="w-full rounded-xl border border-[#30372b] bg-[#0b0c0e] p-3 text-sm text-gray-100 placeholder:text-gray-600 focus:border-brand-500 focus:outline-none"></textarea></label><div class="flex flex-wrap items-center gap-2"><button type="button" id="il-analyze-btn" onclick="app.analyzeIllustrationRefs()" class="bg-brand-500 hover:bg-brand-400 text-black font-bold text-xs px-4 py-2 rounded-xl transition disabled:opacity-60">Analyze references with AI</button><span class="text-[11px] text-gray-500">Gemini describes each uploaded reference for its role. The result is added to your prompt.</span></div><div id="il-analysis-wrap" class="hidden space-y-2"><span class="text-xs font-semibold text-gray-300">AI reference analysis (editable)</span><textarea id="il-ref-analysis" rows="10" class="${this.fc()} font-mono text-xs leading-relaxed"></textarea><label class="flex gap-2 text-xs text-gray-300"><input id="il-use-analysis" type="checkbox" checked class="accent-[#c8f73a]"> Include this analysis in the generated prompt</label></div>`;
                 const subject = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fLabel('Subject or character description', this.fArea('il-subject', 'e.g. a young barista with a short bob and a green apron', 3))}${this.fLabel('Pose and gesture', this.fSelect('il-pose', ['Standing', 'Walking', 'Running', 'Sitting', 'Jumping', 'Action pose', 'Custom pose']))}${this.fLabel('Custom pose (natural language)', this.fText('il-pose-custom', 'Used only when Custom pose is selected'))}${this.fLabel('Body direction', this.fSelect('il-body', ['Facing viewer', 'Three-quarter left', 'Three-quarter right', 'Profile left', 'Profile right', 'Back view']))}${this.fLabel('Hand gesture', this.fText('il-hands', 'e.g. one hand raised, fingers loose'))}${this.fLabel('Facial expression', this.fText('il-expression', 'e.g. calm, slight smile'))}${this.fLabel('Gaze direction', this.fSelect('il-gaze', ['Toward the viewer', 'Away to the side', 'Downward', 'Upward', 'Off-frame']))}</div>`;
-                const render = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fLabel('Framing', this.fSelect('il-framing', ['Portrait or bust', 'Half body', 'Full body', 'Wide scene']))}${this.fLabel('Viewpoint and perspective', this.fSelect('il-viewpoint', ['Eye level', 'Low angle', 'High angle', "Bird's eye", "Worm's eye"]))}${this.fLabel('Color palette', this.fText('il-palette', 'e.g. warm earth tones with one teal accent'))}${this.fLabel('Line quality', this.fSelect('il-line', ['Clean', 'Sketchy', 'Bold', 'Fine', 'No outlines']))}${this.fLabel('Shape language', this.fSelect('il-shape', ['Organic', 'Geometric', 'Angular', 'Mixed']))}${this.fLabel('Shading technique', this.fSelect('il-shading', ['Flat', 'Cel shading', 'Soft gradient', 'Hatching', 'None']))}${this.fLabel('Texture', this.fText('il-texture', 'e.g. paper grain, none'))}${this.fLabel('Detail level', this.fSelect('il-detail', ['Minimal', 'Moderate', 'Detailed']))}${this.fLabel('Background', this.fSelect('il-background', ['Transparent or isolated subject', 'Solid color', 'Graphic background', 'Fully illustrated scene']))}${this.fLabel('Background color (if solid)', this.fText('il-bg-color', 'e.g. cream #F4EBDD'))}${this.fLabel('Aspect ratio', this.fText('il-aspect', 'e.g. 4:5, 1:1, 16:9'))}</div>`;
+                const render = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fLabel('Framing', this.fSelect('il-framing', ['Portrait or bust', 'Half body', 'Full body', 'Wide scene']))}${this.fLabel('Viewpoint and perspective', this.fSelect('il-viewpoint', ['Eye level', 'Low angle', 'High angle', "Bird's eye", "Worm's eye"]))}${this.fLabel('Color palette', this.fText('il-palette', 'e.g. warm earth tones with one teal accent'))}${this.fLabel('Line quality', this.fSelect('il-line', ['Clean', 'Sketchy', 'Bold', 'Fine', 'No outlines']))}${this.fLabel('Shape language', this.fSelect('il-shape', ['Organic', 'Geometric', 'Angular', 'Mixed']))}${this.fLabel('Shading technique', this.fSelect('il-shading', ['Flat', 'Cel shading', 'Soft gradient', 'Hatching', 'None']))}${this.fLabel('Texture', this.fText('il-texture', 'e.g. paper grain, none'))}${this.fLabel('Detail level', this.fSelect('il-detail', ['Minimal', 'Moderate', 'Detailed']))}${this.fLabel('Background', this.fSelect('il-background', ['Transparent or isolated subject', 'Solid color', 'Graphic background', 'Fully illustrated scene']))}${this.fLabel('Background color (if solid)', this.fText('il-bg-color', 'e.g. cream #F4EBDD'))}${this.fLabel('Aspect ratio', this.ilRatioHtml() + this.fText('il-aspect', 'e.g. 4:5, 1:1, 16:9'))}</div>`;
                 const modes = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${this.fLabel('Style mode', this.fSelect('il-mode', ['Preset Only', 'Reference Only', 'Preset + Reference']))}${this.fLabel('When preset and reference conflict (Preset + Reference)', this.fSelect('il-priority', ['Preset takes priority', 'Style reference takes priority']))}</div>`;
                 return `<div class="space-y-6">${this.header('ILLUSTRATION', 'Illustration Generator', 'Pick a style preset, add optional references, describe the subject and pose, optionally analyze them with AI, then generate an editable illustration prompt. This tool does not generate images.')}`
                     + `<div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_minmax(300px,.85fr)] gap-5"><div class="space-y-5">`
-                    + this.panel('Style', 'Choose a built-in preset. Add a style reference only if you want to match a specific illustration look.', `${modes}<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">${presets}</div>`)
-                    + this.panel('Optional references', 'Each reference controls one thing only.', refs)
-                    + this.panel('Subject and pose', '', subject)
-                    + this.panel('Framing, rendering and background', '', render + this.fLabel('Additional custom instructions', this.fArea('il-custom', 'Anything else the illustration should follow or avoid', 3)))
+                    + this.panelStep(1, 'Style', 'Choose a built-in preset. Add a style reference only if you want to match a specific illustration look.', `${modes}<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">${presets}</div>`)
+                    + this.panelStep(2, 'Optional references', 'Each reference controls one thing only.', refs)
+                    + this.panelStep(3, 'Subject and pose', '', subject)
+                    + this.panelStep(4, 'Framing, rendering and background', '', render + this.ilCustomHeader() + this.fArea('il-custom', 'Anything else the illustration should follow or avoid', 3) + this.ilChipsHtml() + this.ilBrandHtml())
                     + `</div><div class="space-y-5">`
                     + this.panel('Output', 'Generate, preview or copy the prompt. The text box is editable.', `<div class="flex flex-wrap gap-2">${this.fBtn('Generate Prompt', "app.buildIllustration()", true)}${this.fBtn('Preview final prompt', "app.buildIllustration(true)")}${this.fBtn('Copy Prompt', "app.copyToolOutput('il-output')")}${this.fBtn('Copy All', "app.copyToolOutput('il-output', true)")}${this.fBtn('Clear / Reset', "app.resetNewTool('illustration-generator')")}</div>${this.fOutput('il-output', 'Your generated illustration prompt appears here. Edit it before copying.')}`)
                     + `</div></div></div>`;
@@ -1288,6 +1456,9 @@ ${bgText}
 ASPECT RATIO
 ${v('il-aspect') || 'Not specified. Choose a balanced ratio that suits the framing.'}
 
+${document.getElementById('il-brand-on')?.checked ? 'BRAND IDENTITY\nName: ' + (v('il-brand-name') || 'not provided') + '\nColors: ' + (v('il-brand-colors') || 'not provided') + '\nUse these colors as the palette accent where they fit. Do not add any logo, slogan or claim that was not supplied.\n\n' : ''}REFERENCE ANALYSIS
+${v('il-analysis') || 'None. Build the prompt from the written instructions only.'}
+
 ADDITIONAL INSTRUCTIONS
 ${v('il-custom') || 'None.'}
 
@@ -1311,6 +1482,158 @@ Photorealistic rendering or photographic lighting unless requested, unwanted pro
                 const fallback = () => { el.select(); try { document.execCommand('copy') ? done() : this.toast('Select the text and copy it manually.'); } catch (e) { this.toast('Select the text and copy it manually.'); } };
                 if (all) { const tmp = document.createElement('textarea'); tmp.value = text; tmp.style.position = 'fixed'; tmp.style.opacity = '0'; document.body.appendChild(tmp); tmp.select(); try { document.execCommand('copy') ? done() : this.toast('Select the text and copy it manually.'); } catch (e) { this.toast('Select the text and copy it manually.'); } tmp.remove(); return; }
                 if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+            },
+            ilRatioOptions: [
+                ['Instagram Feed', '4:5', 'h-6 w-5'],
+                ['Instagram Square', '1:1', 'h-6 w-6'],
+                ['Story / Reels', '9:16', 'h-8 w-5'],
+                ['Landscape / Web', '16:9', 'h-5 w-8'],
+                ['Banner', '3:1', 'h-3 w-9']
+            ],
+            ilPresetChips: ['Soft window light', 'Warm cafe mood', 'Clean white background', 'Subtle paper texture', 'Loose sketchy linework', 'Bold flat colors', 'Shallow depth of field', 'No text or watermark'],
+            ilRatioHtml() {
+                const tiles = this.ilRatioOptions.map(([name, ratio, shape]) => `<button type="button" onclick="app.ilPickRatio('${ratio}', this)" class="ratio-tile rounded-xl border border-[#3a3d45] bg-[#0b0c0e] hover:border-[#E8743B] p-3 text-left transition"><div class="flex h-10 items-end mb-2"><div class="${shape} rounded-sm bg-[#2a2d34] border border-[#4a4f5a]"></div></div><div class="text-xs font-semibold text-gray-100">${name}</div><div class="text-[11px] text-gray-500">${ratio}</div></button>`).join('');
+                return `<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-2">${tiles}</div>`;
+            },
+            ilPickRatio(value, btn) {
+                const input = document.getElementById('il-aspect');
+                if (input) input.value = value;
+                const group = btn.parentElement;
+                group.querySelectorAll('.ratio-tile').forEach(b => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+            },
+            ilChipsHtml() {
+                const chips = this.ilPresetChips.map(t => `<button type="button" onclick="app.ilAddChip('${t}')" class="text-[12px] px-3 py-2 rounded-lg border border-[#5a3a24] bg-[#22170f] text-[#f5c3a6] hover:border-[#E8743B] text-left transition">+ ${t}</button>`).join('');
+                return `<div class="mt-2"><div class="text-[11px] text-gray-500 mb-1">Quick presets (tap to add to the instructions):</div><div class="flex flex-wrap gap-2">${chips}</div></div>`;
+            },
+            ilAddChip(text) {
+                const box = document.getElementById('il-custom');
+                if (!box) return;
+                box.value = box.value.trim() ? box.value.trimEnd() + '\n' + text + '.' : text + '.';
+                box.focus();
+            },
+            ilBrandHtml() {
+                return `<div data-brand-card class="mt-4 rounded-xl border border-[#2a2c33] bg-[#0b0c0e] p-4 space-y-3"><div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-200">Brand identity</span><span data-brand-status class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#202228] text-gray-400 border border-[#3a3d45]">Off</span></div><label class="flex items-center gap-2 text-xs text-gray-300"><input id="il-brand-on" type="checkbox" onchange="app.brandToggle(this)" class="accent-[#E8743B]"> Add brand name and colors to the prompt</label><div class="grid grid-cols-1 md:grid-cols-2 gap-3">${this.fLabel('Brand or account name', this.fText('il-brand-name', 'e.g. KOPIKRAF Coffee Shop'))}${this.fLabel('Brand colors', this.fText('il-brand-colors', 'e.g. deep brown, cream, orange'))}</div><p class="text-[11px] text-gray-500">Only the name and colors you type are added. No logo, slogan or claim is invented.</p></div>`;
+            },
+            analysisWorkerUrl: 'https://brecipe-analyze.breanoraga212.workers.dev',
+            readFileAsBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            },
+            async analyzeReferences() {
+                const btn = document.getElementById('il-analyze-btn');
+                const status = document.getElementById('il-analysis-status');
+                const out = document.getElementById('il-analysis');
+                const defs = [['style', 'il-ref-style', 'STYLE REFERENCE'], ['pose', 'il-ref-pose', 'POSE REFERENCE'], ['subject', 'il-ref-subject', 'SUBJECT REFERENCE'], ['comp', 'il-ref-comp', 'COMPOSITION REFERENCE']];
+                const jobs = defs.map(([role, id, label]) => ({ role, label, file: document.getElementById(id)?.files?.[0] })).filter(j => j.file);
+                if (!jobs.length) { this.toast('Upload at least one reference image first.'); return; }
+                const bad = jobs.find(j => !/^image\/(png|jpeg|webp)$/.test(j.file.type) || j.file.size > 3 * 1024 * 1024);
+                if (bad) { this.toast('Use PNG, JPEG or WebP references under 3 MB.'); return; }
+                if (btn) btn.disabled = true;
+                const results = [];
+                try {
+                    for (let i = 0; i < jobs.length; i++) {
+                        const j = jobs[i];
+                        if (status) status.textContent = `Analyzing ${j.label.toLowerCase()} (${i + 1} of ${jobs.length})...`;
+                        const imageBase64 = await this.readFileAsBase64(j.file);
+                        const res = await fetch(this.analysisWorkerUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ imageBase64, mimeType: j.file.type, role: j.role + ' reference', notes: document.getElementById('il-custom')?.value || '' }),
+                        });
+                        const data = await res.json().catch(() => ({}));
+                        if (!res.ok) throw new Error(data.error || 'Analysis failed');
+                        results.push(`[${j.label}]\n${data.description}`);
+                    }
+                    if (out) out.value = results.join('\n\n');
+                    if (status) status.textContent = 'Done. Edit the analysis if needed before generating the prompt.';
+                } catch (err) {
+                    if (status) status.textContent = 'Error: ' + err.message;
+                    this.toast('Analysis failed. See the message under the button.');
+                } finally {
+                    if (btn) btn.disabled = false;
+                }
+            },
+            rdPickRatio(value, btn) {
+                const input = document.getElementById('rd-canvas');
+                if (input) input.value = value;
+                btn.parentElement.querySelectorAll('.ratio-tile').forEach(b => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+            },
+            rdRatioHtml() { return this.ilRatioHtml().replace(/app\.ilPickRatio/g, 'app.rdPickRatio'); },
+            rdAddChip(text) {
+                const box = document.getElementById('rd-visual');
+                if (!box) return;
+                box.value = box.value.trim() ? box.value.trimEnd() + '\n' + text + '.' : text + '.';
+                box.focus();
+            },
+            rdChipsHtml() { return this.ilChipsHtml().replace(/app\.ilAddChip/g, 'app.rdAddChip'); },
+            rdBrandHtml() { return this.ilBrandHtml().replace(/il-brand/g, 'rd-brand'); },
+            panelStep(n, title, hint, body) {
+                return `<section class="rounded-2xl border border-[#2a2c33] bg-[#111216] p-5 md:p-6 space-y-4"><div class="flex items-start gap-3"><div class="w-7 h-7 shrink-0 rounded-full bg-[#E8743B] text-black text-sm font-bold flex items-center justify-center">${n}</div><div><h3 class="text-lg font-semibold text-white">${title}</h3>${hint ? `<p class="text-xs text-gray-500 mt-1">${hint}</p>` : ''}</div></div>${body}</section>`;
+            },
+            fDrop(id, title, hint) {
+                return `<div class="rounded-2xl border-2 border-dashed border-[#E8743B]/50 bg-[#17110d] p-4 text-center space-y-2"><div class="text-xs font-semibold text-gray-200">${title}</div><div class="text-[11px] text-gray-500">${hint}</div><label class="inline-block cursor-pointer rounded-lg bg-[#E8743B] px-4 py-2 text-xs font-bold text-black">Choose photo<input id="${id}" type="file" accept="image/*" class="sr-only" onchange="app.dropChanged('${id}')"></label><div id="${id}-name" class="text-[11px] text-gray-500 truncate">No file selected</div><button id="${id}-clear" type="button" onclick="app.dropClear('${id}')" class="hidden text-[11px] text-red-300 hover:text-red-200">Remove</button></div>`;
+            },
+            dropChanged(id) {
+                const f = document.getElementById(id)?.files?.[0];
+                const label = document.getElementById(id + '-name');
+                if (label) label.textContent = f ? f.name : 'No file selected';
+                document.getElementById(id + '-clear')?.classList.toggle('hidden', !f);
+            },
+            dropClear(id) {
+                const input = document.getElementById(id);
+                if (input) input.value = '';
+                this.dropChanged(id);
+            },
+            ilCustomHeader() {
+                return `<div class="flex items-center justify-between"><span class="text-xs font-semibold text-gray-300">Additional instructions (optional)</span><span class="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-[#E8743B]/15 text-[#f5a06f] border border-[#E8743B]/40">Custom Prompt</span></div>`;
+            },
+            brandToggle(el) {
+                const pill = el.closest('[data-brand-card]')?.querySelector('[data-brand-status]');
+                if (!pill) return;
+                pill.textContent = el.checked ? 'On' : 'Off';
+                pill.className = el.checked ? 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E8743B] text-black' : 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#202228] text-gray-400 border border-[#3a3d45]';
+            },
+            async generateImage() {
+                const status = document.getElementById('rd-gen-status');
+                const setStatus = t => { if (status) status.textContent = t; };
+                const prompt = (document.getElementById('rd-output')?.value || '').trim();
+                if (!prompt) { this.toast('Generate a prompt first.'); return; }
+                const primary = document.getElementById('rd-primary')?.files?.[0];
+                if (!primary) { this.toast('Add the primary design reference first.'); return; }
+                const sources = Array.from(document.getElementById('rd-sources')?.files || []);
+                const items = [{ file: primary, role: 'primary design reference' }, ...sources.map((f, i) => ({ file: f, role: document.getElementById('rd-role-' + i)?.value || 'source asset' }))].slice(0, 4);
+                const bad = items.find(i => i.file.size > 3 * 1024 * 1024 || !/^image\/(png|jpeg|webp)$/.test(i.file.type));
+                if (bad) { this.toast('Use PNG, JPEG or WebP files under 3 MB.'); return; }
+                const aspect = (document.getElementById('rd-canvas')?.value.match(/\d+\s*:\s*\d+/) || [''])[0].replace(/\s/g, '');
+                setStatus('Generating image... this can take up to a minute.');
+                try {
+                    const images = [];
+                    for (const it of items) images.push({ imageBase64: await this.readFileAsBase64(it.file), mimeType: it.file.type, role: it.role });
+                    const res = await fetch(this.analysisWorkerUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ task: 'generate', prompt, images, aspectRatio: aspect }),
+                    });
+                    const data = await res.json().catch(() => ({}));
+                    if (!res.ok) throw new Error(data.error || 'Image generation failed');
+                    this.showGenerated(data.mimeType, data.imageBase64);
+                    setStatus('Done. Download the image below, or edit the prompt and generate again.');
+                } catch (err) {
+                    setStatus('Error: ' + err.message);
+                }
+            },
+            showGenerated(mime, b64) {
+                const box = document.getElementById('rd-result');
+                if (!box) return;
+                const src = `data:${mime};base64,${b64}`;
+                box.classList.remove('hidden');
+                box.innerHTML = `<img src="${src}" alt="Generated design" class="w-full rounded-lg"><div class="flex flex-wrap gap-2"><a href="${src}" download="brecipe-design.png" class="inline-block rounded-lg bg-[#202228] border border-[#3a3d45] px-4 py-2 text-xs font-bold text-gray-100">Download</a></div>`;
             },
             moduleConfig(id) {
                 const configs = {
